@@ -2,7 +2,7 @@ class makeDraggable {
 	constructor (element, container) {
         this.element = element;
         this.container = container;
-        this.containerBorderWidth = parseFloat(
+        this.container.borderWidth = parseFloat(
         	getComputedStyle(this.container).borderWidth);
 
         this.state = {
@@ -14,12 +14,19 @@ class makeDraggable {
 	}
 
 	set x (value) {
-		this.state.x = value;
+		let correctValue = Math.max(0, value);
+		correctValue = Math.min(correctValue, 
+			this.containerWidth - this.element.width);
+		this.state.x = correctValue;
+
 		this.render();
 	}
 
 	set y (value) {
-		this.state.y = value;
+		let correctValue = Math.max(0, value);
+		correctValue = Math.min(correctValue,
+			this.containerHeight - this.element.height);
+		this.state.y = correctValue;
 		this.render();
 	}
 
@@ -52,10 +59,16 @@ class makeDraggable {
 		this.container.style.position = 'relative';
 		this.wrapper.style.position = 'absolute';
 
-		this.state.x = this.getCoords(this.wrapper).left
-		    - this.refPoint.left - this.containerBorderWidth;
-		this.state.y = - this.getCoords(this.wrapper).bottom
-		    + this.refPoint.bottom - this.containerBorderWidth;
+		this.element.width = parseFloat(
+        	getComputedStyle(this.wrapper).width);
+		this.element.height = parseFloat(
+        	getComputedStyle(this.wrapper).height);
+       
+		this.x = this.getCoords(this.wrapper).left
+		    - this.refPoint.left - this.container.borderWidth;
+		this.y = - this.getCoords(this.wrapper).bottom
+		    + this.refPoint.bottom - this.container.borderWidth;
+		
 	}
 
 	addHandlers () {
@@ -83,6 +96,10 @@ class makeDraggable {
                 	this.container.onmousemove = null;
                 }
             }
+		}
+
+		this.container.onmouseleave = () => {
+			this.container.onmousemove = null;
 		}
 	}
 
