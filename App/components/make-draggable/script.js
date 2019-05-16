@@ -2,9 +2,7 @@ class makeDraggable {
 	constructor (element, container) {
         this.element = element;
         this.container = container;
-        this.container.borderWidth = parseFloat(
-        	getComputedStyle(this.container).borderWidth);
-
+       
         this.state = {
         	x: null,
         	y: null
@@ -44,12 +42,20 @@ class makeDraggable {
 		return this.getCoords(this.container);
 	}
 
-	init() {
+	init () {
 		this.build();
 		this.addHandlers();
 	}
 
 	build () {
+        const containerBorderWidth = getComputedStyle(
+        	this.container).borderWidth;
+        if(containerBorderWidth)
+        	this.containerBorderWidth = parseFloat(
+        		containerBorderWidth);
+        else
+            this.containerBorderWidth = 0;
+
 		this.wrapper = document.createElement('div');
 		this.wrapper.classList
 		    .add('make-draggable__wrapper');
@@ -65,9 +71,9 @@ class makeDraggable {
         	getComputedStyle(this.wrapper).height);
        
 		this.x = this.getCoords(this.wrapper).left
-		    - this.refPoint.left - this.container.borderWidth;
+		    - this.refPoint.left - this.containerBorderWidth;
 		this.y = - this.getCoords(this.wrapper).bottom
-		    + this.refPoint.bottom - this.container.borderWidth;
+		    + this.refPoint.bottom - this.containerBorderWidth;
 		
 	}
 
