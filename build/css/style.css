@@ -1,11 +1,77 @@
+main {
+  margin: 40px auto;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  min-height: 700px;
+}
 .container {
-  width: 700px;
-  height: 500px;
-  margin: 50px auto;
+  width: 70%;
   border: 2px solid black;
 }
-.element {
-  width: 150px;
-  height: 100px;
+.elements {
+  width: 25%;
+  max-width: 300px;
+  min-width: 180px;
+  border: 2px solid black;
+}
+.elements__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.elements__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin: 20px auto;
+  box-sizing: border-box;
+  border: 2px solid black;
+  padding: 10px;
+}
+.elements__item-label {
+  border: 1px solid black;
+}
+.elements__item-icon {
+  margin-bottom: 20px;
+  display: block;
+  width: 120px;
+  height: 120px;
+  background: transparent;
+}
+.elements__item-button {
+  margin-bottom: 20px;
+  display: block;
   background: green;
+  padding: 10px 40px;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+.elements__item-button:hover {
+  opacity: 0.5;
+}
+.hidden {
+  display: none;
+}
+.make-draggable__deleter {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  color: red;
+  font-weight: bold;
+  opacity: 0;
+}
+.make-draggable__deleter:hover {
+  cursor: pointer;
+}
+.make-draggable__wrapper:hover .make-draggable__deleter {
+  opacity: 1;
 }

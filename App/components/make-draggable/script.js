@@ -1,8 +1,11 @@
 class makeDraggable {
-	constructor (element, container) {
+	constructor (element, container, startX, startY) {
         this.element = element;
         this.container = container;
-       
+        this.startX = startX;
+        this.startY = startY;
+        this.elemOriginParent = this.element.parentElement;
+
         this.state = {
         	x: null,
         	y: null
@@ -61,6 +64,13 @@ class makeDraggable {
 		    .add('make-draggable__wrapper');
 		this.container.appendChild(this.wrapper);
 		this.wrapper.appendChild(this.element);
+        
+        this.deleter = document.createElement('div');
+        this.wrapper.appendChild(this.deleter);
+        this.deleter.classList.add('make-draggable__deleter');
+        this.deleter.innerHTML = '&#10008';
+        this.deleter.fontSize = '18px';
+
 
 		this.container.style.position = 'relative';
 		this.wrapper.style.position = 'absolute';
@@ -70,10 +80,8 @@ class makeDraggable {
 		this.element.height = parseFloat(
         	getComputedStyle(this.wrapper).height);
        
-		this.x = this.getCoords(this.wrapper).left
-		    - this.refPoint.left - this.containerBorderWidth;
-		this.y = - this.getCoords(this.wrapper).bottom
-		    + this.refPoint.bottom - this.containerBorderWidth;
+		this.x = this.startX;
+		this.y = this.startY;
 		
 	}
 
@@ -82,7 +90,8 @@ class makeDraggable {
 			return false;
 		}
 
-		this.wrapper.onmousedown = (e) => {
+		this.element.onmousedown = (e) => {
+			this.wrapper.style.zIndex = 1;
 			const startElem = {
 				x: this.state.x,
 				y: this.state.y
@@ -98,7 +107,7 @@ class makeDraggable {
                 this.y = startElem.y - (e.clientY - 
                 	startTouch.top);
 
-                this.container.onmouseup = (e) => {
+                this.element.onmouseup = (e) => {
                 	this.container.onmousemove = null;
                 }
             }
@@ -106,6 +115,11 @@ class makeDraggable {
 
 		this.container.onmouseleave = () => {
 			this.container.onmousemove = null;
+		}
+
+		this.deleter.onclick = () => {
+			console.log('hello')
+			this.delete();
 		}
 	}
 
@@ -124,6 +138,13 @@ class makeDraggable {
 		this.wrapper.style.bottom = this.state.y + 'px';
 		this.element.innerHTML = 'x: ' + Math.round(this.state.x) +
 		    '<br>y: ' + Math.round(this.state.y);
+	}
+
+	delete () {
+		const button = this.elemOriginParent
+		    .querySelector('.elements__item-button');
+		this.elemOriginParent.insertBefore(this.element, button);
+		this.container.removeChild(this.wrapper);
 	}
 
 

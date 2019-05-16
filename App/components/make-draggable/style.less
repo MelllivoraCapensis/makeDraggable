@@ -1,0 +1,28 @@
+@deleter-size: 30px;
+.make-draggable__deleter {
+	position: absolute;
+    top: -@deleter-size/2;
+    right: -@deleter-size/2;
+
+ 	width: @deleter-size;
+	height: @deleter-size;
+
+	font-size: @deleter-size;
+	color: red;
+	font-weight: bold;
+    
+    opacity: 0;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+
+}
+
+.make-draggable__wrapper {
+
+	&:hover .make-draggable__deleter {
+		opacity: 1;
+}
+}
