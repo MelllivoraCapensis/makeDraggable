@@ -3,6 +3,7 @@ main {
   width: 90%;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   min-height: 700px;
 }
 h1 {
@@ -10,12 +11,14 @@ h1 {
 }
 .container {
   width: 70%;
+  height: 600px;
   border: 2px solid black;
 }
 .elements {
   width: 25%;
   max-width: 300px;
   min-width: 180px;
+  min-height: 600px;
   border: 2px solid black;
 }
 .elements__list {
